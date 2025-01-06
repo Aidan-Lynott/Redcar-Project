@@ -1,15 +1,34 @@
 import React, { useState } from 'react';
-import { askQuestion } from '../api.ts';
 
 const QuestionForm: React.FC = () => {
   const [question, setQuestion] = useState('');
   const [domain, setDomain] = useState('');
   const [result, setResult] = useState('');
+  const [isStreaming, setIsStreaming] = useState(false);
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    const response = await askQuestion(question, domain);
-    setResult(response.data.result);
+    setResult(''); // Clear previous results
+    setIsStreaming(true);
+
+    const eventSource = new EventSource(`http://localhost:3001/questions/stream?question=${question}&domain=${domain}`);
+
+    eventSource.onmessage = (event) => {
+      console.log('Event received:', event.data); // Debug: log each chunk received
+      setResult((prevResult) => prevResult + event.data);
+    };
+
+    eventSource.onerror = (error) => {
+      console.error('SSE error:', error);
+      setIsStreaming(false);
+      eventSource.close();
+    };
+
+    eventSource.addEventListener('end', () => {
+      console.log('Streaming complete');
+      setIsStreaming(false);
+      eventSource.close();
+    });
   };
 
   return (
@@ -27,9 +46,15 @@ const QuestionForm: React.FC = () => {
           value={domain}
           onChange={(e) => setDomain(e.target.value)}
         />
-        <button type="submit">Submit</button>
+        <button type="submit" disabled={isStreaming}>
+          Submit
+        </button>
       </form>
-      {result && <p>Result: {result}</p>}
+      <div>
+        <h3>Result:</h3>
+        <p>{result}</p>
+      </div>
+      {isStreaming && <p>Streaming in progress...</p>}
     </div>
   );
 };

@@ -1,20 +1,35 @@
-import { Controller, Post, Body } from '@nestjs/common';
+import { Controller, Sse, Query } from '@nestjs/common';
+import { Observable } from 'rxjs';
 import { GeminiAIService } from '../gemini/gemini.service';
 
 @Controller('questions')
 export class QuestionController {
   constructor(private readonly geminiAIService: GeminiAIService) {}
 
-  @Post()
-  async askQuestion(@Body() body: { question: string; domain: string }) {
-    try {
-      // Optional: you can provide additional context, for example, the domain
-      const context = `Context for domain ${body.domain}`;
-      
-      const answer = await this.geminiAIService.askQuestion(body.question, context);
-      return { result: answer };
-    } catch (error) {
-      return { result: 'Sorry, I could not retrieve an answer at the moment.' };
-    }
+  @Sse('stream')
+  async streamQuestion(@Query('question') question: string, @Query('domain') domain: string): Promise<Observable<MessageEvent>> {
+    const context = `Context for domain ${domain}`;
+
+    const stream = await this.geminiAIService.askQuestionStream(question, context);
+
+    return new Observable((subscriber) => {
+      stream.on('data', (chunk) => {
+        console.log('Controller received chunk:', chunk.toString());
+        subscriber.next(
+          new MessageEvent('message', { data: chunk.toString() })
+        );
+      });
+
+      stream.on('end', () => {
+        console.log('Controller received end event');
+        subscriber.next(new MessageEvent('end', { data: 'Streaming complete' }));
+        subscriber.complete();
+      });
+
+      stream.on('error', (error) => {
+        console.error('Controller stream error:', error);
+        subscriber.error(error);
+      });
+    });
   }
 }
