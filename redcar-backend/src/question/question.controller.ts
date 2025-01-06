@@ -1,24 +1,20 @@
 import { Controller, Post, Body } from '@nestjs/common';
-import { OpenAiService } from '../openai/openai.service'; // Import the OpenAiService
+import { GeminiAIService } from '../gemini/gemini.service';
 
 @Controller('questions')
 export class QuestionController {
-  // Inject OpenAiService into the constructor
-  constructor(private readonly openAiService: OpenAiService) {}
+  constructor(private readonly geminiAIService: GeminiAIService) {}
 
   @Post()
   async askQuestion(@Body() body: { question: string; domain: string }) {
-    const { question, domain } = body;
-
     try {
-      // Use the OpenAiService to get a response
-      const result = await this.openAiService.generateResponse(question, domain);
+      // Optional: you can provide additional context, for example, the domain
+      const context = `Context for domain ${body.domain}`;
       
-      // Return the result
-      return { result };
+      const answer = await this.geminiAIService.askQuestion(body.question, context);
+      return { result: answer };
     } catch (error) {
-      // Handle error if the OpenAI API request fails
-      return { error: 'Failed to generate response' };
+      return { result: 'Sorry, I could not retrieve an answer at the moment.' };
     }
   }
 }
