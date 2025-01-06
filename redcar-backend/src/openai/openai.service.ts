@@ -17,7 +17,7 @@ export class OpenAiService {
     try {
       const prompt = `Answer this question based on the company ${domain}: ${question}`;
       const response = await this.openai.createCompletion({
-        model: 'text-davinci-003',
+        model: 'gpt-4o-mini',
         prompt,
         max_tokens: 150,
         temperature: 0.7,
