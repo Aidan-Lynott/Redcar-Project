@@ -1,10 +1,12 @@
-import { Controller, Sse, Query } from '@nestjs/common';
+import { Controller, Sse, Query, Post, Body, Get } from '@nestjs/common';
 import { Observable } from 'rxjs';
 import { GeminiAIService } from '../gemini/gemini.service';
+import { QuestionService } from './question.service';
+import { Question } from './question.entity';
 
 @Controller('questions')
 export class QuestionController {
-  constructor(private readonly geminiAIService: GeminiAIService) {}
+  constructor(private readonly geminiAIService: GeminiAIService, private readonly questionService: QuestionService) {}
 
   @Sse('stream')
   async streamQuestion(@Query('question') question: string, @Query('domain') domain: string): Promise<Observable<MessageEvent>> {
@@ -32,4 +34,21 @@ export class QuestionController {
       });
     });
   }
+
+  // Endpoint to save a new question and result
+  @Post()
+  async addQuestion(
+    @Body('question') question: string,
+    @Body('domain') domain: string,
+    @Body('result') result: string,
+  ): Promise<Question> {
+    return this.questionService.addQuestion(question, domain, result);
+  }
+
+  // Endpoint to fetch all questions and results
+  @Get()
+  async getAllQuestions(): Promise<Question[]> {
+    return this.questionService.getAllQuestions();
+  }
+  
 }

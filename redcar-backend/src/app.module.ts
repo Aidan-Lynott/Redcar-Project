@@ -2,8 +2,9 @@ import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { Question } from './entities/question.entity';
+import { Question } from './question/question.entity';
 import { QuestionController } from './question/question.controller';
+import { QuestionService } from './question/question.service';
 import { GeminiAIService } from './gemini/gemini.service';
 
 @Module({
@@ -17,6 +18,6 @@ import { GeminiAIService } from './gemini/gemini.service';
     TypeOrmModule.forFeature([Question]), 
   ],
   controllers: [AppController, QuestionController], 
-  providers: [AppService, GeminiAIService],
+  providers: [AppService, GeminiAIService, QuestionService],
 })
 export class AppModule {}

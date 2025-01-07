@@ -6,12 +6,6 @@ export class Question {
   id: number;
 
   @Column()
-  user: string;
-
-  @Column()
-  timestamp: string;
-
-  @Column()
   question: string;
 
   @Column()
