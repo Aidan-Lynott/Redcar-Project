@@ -73,31 +73,40 @@ const QuestionForm: React.FC = () => {
   return (
     <div>
       <form onSubmit={handleSubmit}>
+        <label htmlFor="question">Question:</label>
         <input
+          id="question"
           type="text"
-          placeholder="Question"
+          placeholder="Type your question here"
           value={question}
           onChange={(e) => setQuestion(e.target.value)}
         />
+
+        <label htmlFor="domain">Domain (Optional):</label>
         <input
+          id="domain"
           type="text"
-          placeholder="Domain (e.g., redcar.io)"
+          placeholder="e.g., redcar.io"
           value={domain}
           onChange={(e) => setDomain(e.target.value)}
         />
+
         <button type="submit" disabled={isStreaming}>
           Submit
         </button>
       </form>
+
       {isStreaming && <p>Streaming in progress...</p>}
+
       <div>
         <h3>Result:</h3>
-        <p>{result}</p> {/* This will display the streamed result in real time */}
+        <p>{result}</p>
       </div>
+
       <h3>Previous Questions and Results:</h3>
       <ul>
-        {[...questions].reverse().map((q) => (
-          <li key={q.id}>
+        {[...questions].reverse().map((q, index) => (
+          <li key={index}>
             <strong>{q.question}</strong> ({q.domain}): {q.result}
           </li>
         ))}
