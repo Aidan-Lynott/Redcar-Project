@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { saveQuestionToDatabase, getAllQuestionsFromDatabase } from '../api.ts';
+import PreviousQuestions from './PreviousQuestions.tsx';
 
 const QuestionForm: React.FC = () => {
   const [question, setQuestion] = useState('');
@@ -103,14 +104,8 @@ const QuestionForm: React.FC = () => {
         <p>{result}</p>
       </div>
 
-      <h3>Previous Questions and Results:</h3>
-      <ul>
-        {[...questions].reverse().map((q, index) => (
-          <li key={index}>
-            <strong>{q.question}</strong> ({q.domain}): {q.result}
-          </li>
-        ))}
-      </ul>
+      {/* Pass the questions state to the new component */}
+      <PreviousQuestions questions={questions} />
     </div>
   );
 };

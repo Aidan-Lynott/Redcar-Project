@@ -32,10 +32,10 @@ export class QuestionController {
       Do not mention scraping html or html in your response, if you want to 
       mention html refer to it as the text on the website. Like "scraping 
       html" could be "getting the website's text" instead. Keep your answer 
-      at 3 sentences or less, and if the question can be answered in less 
-      definitely answer in less. Also do not mention the html provided to 
-      you, just refer to it as the text on the website. Also only return plain text, 
-      do not try to bold anything or something like that.
+      at 3 sentences or less, and make sure your answer is detailed enough while 
+      still prioritizing brevity. Also do not mention the html provided to 
+      you, or "provided text": just refer to it as the text on the website. 
+      Also only return plain text, do not try to bold anything or something like that.
       `;
     let prompt = ''
 
