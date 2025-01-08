@@ -5,7 +5,6 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { Question } from './question/question.entity';
 import { QuestionController } from './question/question.controller';
 import { QuestionService } from './question/question.service';
-import { GeminiAIService } from './gemini/gemini.service';
 
 @Module({
   imports: [
@@ -18,6 +17,6 @@ import { GeminiAIService } from './gemini/gemini.service';
     TypeOrmModule.forFeature([Question]), 
   ],
   controllers: [AppController, QuestionController], 
-  providers: [AppService, GeminiAIService, QuestionService],
+  providers: [AppService, QuestionService],
 })
 export class AppModule {}

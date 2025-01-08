@@ -1,9 +1,7 @@
 import { Controller, Sse, Query, Post, Body, Get } from '@nestjs/common';
 import { Observable } from 'rxjs';
-import { GeminiAIService } from '../gemini/gemini.service';
 import { QuestionService } from './question.service';
 import { Question } from './question.entity';
-import { Injectable } from '@nestjs/common';
 import { Readable } from 'stream';
 import { GoogleGenerativeAI } from '@google/generative-ai';
 import axios from 'axios';
@@ -35,7 +33,9 @@ export class QuestionController {
       mention html refer to it as the text on the website. Like "scraping 
       html" could be "getting the website's text" instead. Keep your answer 
       at 3 sentences or less, and if the question can be answered in less 
-      definitely answer in less
+      definitely answer in less. Also do not mention the html provided to 
+      you, just refer to it as the text on the website. Also only return plain text, 
+      do not try to bold anything or something like that.
       `;
     let prompt = ''
 
@@ -123,8 +123,11 @@ export class QuestionController {
         prompt = prompt_start + `
         The user previously identified the domain they were interested in as ` + domain + `.
          However, there was an error scraping the website so the information about 
-         the business could not be found. Apologize to the user for this, and tell them 
-         to try again as this may be a one time error. Here is the user's question: ` + question;
+         the business could not be found. Apologize to the user for this, make it clear
+          that the website may just not allow robots/ai/whatever to access it, 
+          but also tell them they can try again in case it is a one time error.
+          Also encourage the user to check the spelling of their domain in case they 
+          spelt it wrong. Here is the user's question: ` + question;
       }
       else if (domain == 'No Content Found') {
         prompt = prompt_start + `
