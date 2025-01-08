@@ -16,20 +16,27 @@ form {
   width: 100%;
 }
 
+form input {
+  width: 75%; /* Input box takes up 75% of the screen width */
+  margin-top: 0.5rem;
+  margin-bottom: 1rem;
+  padding: 1rem; /* Increase padding for bigger input box */
+  border: 1px solid #f5c6cb; /* Subtle border */
+  border-radius: 5px;
+  font-size: 1.2rem; /* Increase font size for larger text */
+}
+
 form label {
-  font-size: 1.2rem;
+  font-size: 1.5rem; /* Make the label text larger */
   font-weight: bold;
   margin-top: 1rem;
 }
 
-form input {
-  width: 75%; /* Input box is 75% of the screen width */
-  margin-top: 0.5rem;
+.subheader {
+  font-size: 1rem; /* Adjust subheader size if needed */
+  margin-top: 0.2rem;
   margin-bottom: 1rem;
-  padding: 0.5rem;
-  border: 1px solid #f5c6cb; /* Subtle border */
-  border-radius: 5px;
-  font-size: 1rem;
+  text-align: left;
 }
 
 form button {
@@ -65,4 +72,28 @@ ul li {
   padding: 0.5rem;
   margin-bottom: 0.5rem;
   text-align: left;
+}
+
+.answer-container {
+  margin-left: 20px;
+  margin-top: 10px;
+  transition: max-height 0.3s ease, opacity 0.3s ease;
+  overflow: hidden;
+}
+
+ul li div {
+  display: flex;
+  flex-direction: column;
+}
+
+ul li div strong {
+  font-weight: bold;
+}
+
+ul li div p {
+  margin: 0;
+}
+
+.answer-container p {
+  margin: 5px 0;
 }

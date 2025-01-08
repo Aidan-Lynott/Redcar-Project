@@ -1,2 +1,2 @@
 -- SQLite
-select * from question
+delete from question

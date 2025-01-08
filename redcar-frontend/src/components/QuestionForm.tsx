@@ -72,22 +72,30 @@ const QuestionForm: React.FC = () => {
   };
 
   return (
-    <div>
+    <div
+        style={{
+          maxWidth: '75%', // Boxes are constrained to 75% of the width
+          minWidth: '75%',
+          margin: '0 auto', // Center the boxes horizontally
+        }}
+    >
       <form onSubmit={handleSubmit}>
-        <label htmlFor="question">Question:</label>
+        <label htmlFor="question">Enter Question:</label>
+        <p className="subheader">Ask the AI a question about a business. Your question should contain a domain for the AI to get it's information from.</p>
         <input
           id="question"
           type="text"
-          placeholder="Type your question here"
+          placeholder="Type your question here, e.g., “Is the company redcar.io a B2B company?”"
           value={question}
           onChange={(e) => setQuestion(e.target.value)}
         />
 
-        <label htmlFor="domain">Domain (Optional):</label>
+        <label htmlFor="domain">Enter Domain (Optional):</label>
+        <p className="subheader">To confirm the AI properly parses your domain, you can enter it here. This is not necessary though!</p>
         <input
           id="domain"
           type="text"
-          placeholder="e.g., redcar.io"
+          placeholder="Type your domain here, e.g., “redcar.io”"
           value={domain}
           onChange={(e) => setDomain(e.target.value)}
         />
@@ -97,10 +105,14 @@ const QuestionForm: React.FC = () => {
         </button>
       </form>
 
-      {isStreaming && <p>Streaming in progress...</p>}
-
-      <div>
-        <h3>Result:</h3>
+      <div
+        style={{
+          maxWidth: '75%', // Boxes are constrained to 75% of the width
+          minWidth: '75%',
+          margin: '0 auto', // Center the boxes horizontally
+        }}
+      >
+        <h2>Answer:</h2>
         <p>{result}</p>
       </div>
 
