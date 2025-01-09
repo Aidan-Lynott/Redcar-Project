@@ -11,13 +11,13 @@ export class QuestionService {
   ) {}
 
   // Method to add a new question and result to the database
-  async addQuestion(question: string, domain: string, result: string): Promise<Question> {
-    const newQuestion = this.questionRepository.create({ question, domain, result });
+  async addQuestion(username: string, question: string, domain: string, result: string): Promise<Question> {
+    const newQuestion = this.questionRepository.create({ username, question, domain, result });
     return this.questionRepository.save(newQuestion);
   }
 
-  // Method to retrieve all questions from the database
-  async getAllQuestions(): Promise<Question[]> {
-    return this.questionRepository.find();
+  // Method to retrieve questions for a specific user from the database
+  async getUserQuestions(username: string): Promise<Question[]> {
+    return this.questionRepository.find({ where: { username } });
   }
 }

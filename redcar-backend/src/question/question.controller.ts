@@ -206,16 +206,17 @@ export class QuestionController {
   // Endpoint to save a new question and result
   @Post()
   async addQuestion(
+    @Body('username') username: string,
     @Body('question') question: string,
     @Body('domain') domain: string,
     @Body('result') result: string,
   ): Promise<Question> {
-    return this.questionService.addQuestion(question, domain, result);
+    return this.questionService.addQuestion(username, question, domain, result);
   }
 
   // Endpoint to fetch all questions and results
   @Get()
-  async getAllQuestions(): Promise<Question[]> {
-    return this.questionService.getAllQuestions();
+  async getAllQuestions(@Query('username') username: string): Promise<Question[]> {
+    return this.questionService.getUserQuestions(username);
   }
 }

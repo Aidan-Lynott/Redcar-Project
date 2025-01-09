@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 
 interface Question {
   id?: number;
+  username: string;
   question: string;
   domain: string;
   result: string;
@@ -36,7 +37,6 @@ const PreviousQuestions: React.FC<PreviousQuestionsProps> = ({ questions }) => {
     <div
       style={{
         backgroundColor: '#f8d7da', // Red background outside the boxes
-        minHeight: '100vh', // Full viewport height
         padding: '20px', // Padding around the content
       }}
     >

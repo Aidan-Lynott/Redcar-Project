@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { saveQuestionToDatabase, getAllQuestionsFromDatabase } from '../api.ts';
+import { saveQuestionToDatabase, getUserQuestionsFromDatabase } from '../api.ts';
 import PreviousQuestions from './PreviousQuestions.tsx';
 import { useAuth } from './AuthContext.tsx'; // Import AuthContext hook
+import { jwtDecode } from 'jwt-decode';
 
 const QuestionForm: React.FC = () => {
   const [question, setQuestion] = useState('');
@@ -15,7 +16,15 @@ const QuestionForm: React.FC = () => {
   // Fetch all questions from the database when the component mounts
   useEffect(() => {
     const fetchQuestions = async () => {
-      const data = await getAllQuestionsFromDatabase();
+      // Get userId from token
+      const token = localStorage.getItem('token');
+      if (!token) {
+        console.error('No token found');
+        return;
+      }
+      const decodedToken: any = jwtDecode(token); // Decode the token  
+      const username = decodedToken?.username;
+      const data = await getUserQuestionsFromDatabase(username);
       setQuestions(data);
     };
 
@@ -62,12 +71,21 @@ const QuestionForm: React.FC = () => {
       console.log('Final domain:', domain);
       console.log('Final result (local variable):', streamingResult);
 
+      // Get userId from token
+      const token = localStorage.getItem('token');
+      if (!token) {
+        console.error('No token found');
+        return;
+      }
+      const decodedToken: any = jwtDecode(token); // Decode the token  
+      const username = decodedToken?.username;
+
       // Add the new question to the local state
-      const newQuestion = { question, domain, result: streamingResult };
+      const newQuestion = { username, question, domain, result: streamingResult };
       setQuestions((prevQuestions) => [...prevQuestions, newQuestion]);
 
       // Save to database
-      await saveQuestionToDatabase(question, domain, streamingResult);
+      await saveQuestionToDatabase(username, question, domain, streamingResult);
 
       setQuestion('');
       setDomain('');

@@ -6,6 +6,9 @@ export class Question {
   id: number;
 
   @Column()
+  username: string;
+
+  @Column()
   question: string;
 
   @Column()
