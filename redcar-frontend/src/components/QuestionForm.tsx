@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { saveQuestionToDatabase, getAllQuestionsFromDatabase } from '../api.ts';
 import PreviousQuestions from './PreviousQuestions.tsx';
+import { useAuth } from './AuthContext.tsx'; // Import AuthContext hook
 
 const QuestionForm: React.FC = () => {
   const [question, setQuestion] = useState('');
@@ -8,6 +9,8 @@ const QuestionForm: React.FC = () => {
   const [result, setResult] = useState(''); // This stores and displays the live streamed result
   const [isStreaming, setIsStreaming] = useState(false);
   const [questions, setQuestions] = useState<any[]>([]); // Store questions from the database
+
+  const { logout } = useAuth(); // Get the logout function from AuthContext
 
   // Fetch all questions from the database when the component mounts
   useEffect(() => {
@@ -73,15 +76,26 @@ const QuestionForm: React.FC = () => {
 
   return (
     <div
-        style={{
-          maxWidth: '75%', // Boxes are constrained to 75% of the width
-          minWidth: '75%',
-          margin: '0 auto', // Center the boxes horizontally
-        }}
+      style={{
+        maxWidth: '75%', // Boxes are constrained to 75% of the width
+        minWidth: '75%',
+        margin: '0 auto', // Center the boxes horizontally
+      }}
     >
+
+      <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', width: '100%' }}>
+      <button className="button-style"
+          onClick={logout} 
+        >
+        Logout
+      </button>
+      </div>
       <form onSubmit={handleSubmit}>
         <label htmlFor="question">Enter Question:</label>
-        <p className="subheader">Ask the AI a question about a business. Your question should contain a domain for the AI to get it's information from.</p>
+        <p className="subheader">
+          Ask the AI a question about a business. Your question should contain a domain for the AI
+          to get its information from.
+        </p>
         <input
           id="question"
           type="text"
@@ -91,7 +105,10 @@ const QuestionForm: React.FC = () => {
         />
 
         <label htmlFor="domain">Enter Domain (Optional):</label>
-        <p className="subheader">To confirm the AI properly parses your domain, you can enter it here. This is not necessary though!</p>
+        <p className="subheader">
+          To confirm the AI properly parses your domain, you can enter it here. This is not
+          necessary though!
+        </p>
         <input
           id="domain"
           type="text"

@@ -176,16 +176,21 @@ export class QuestionController {
         try {
           // Await the promise to get the result
           console.log(prompt)
-          const result = await model.generateContentStream(prompt);  // Await here to get the stream
+          // WHY DID THIS BREAK
+          // const result = await model.generateContentStream(prompt);  // Await here to get the stream
+          //console.log(result)
+          const result2 = await model.generateContent(prompt);
 
           // Iterate over chunks and push them to the SSE client as soon as they are received
-          for await (const chunk of result.stream) {  // Access 'stream' after awaiting the result
-            const chunkText = chunk.text();
-            console.log('Received chunk:', chunkText);  // Log for debugging
+          //for await (const chunk of result.stream) {  // Access 'stream' after awaiting the result
+            //const chunkText = chunk.text();
+            //console.log('Received chunk:', chunkText);  // Log for debugging
 
             // Push chunk to the SSE client immediately
-            subscriber.next(new MessageEvent('message', { data: chunkText }));
-          }
+            //subscriber.next(new MessageEvent('message', { data: chunkText }));
+          //}
+          
+          subscriber.next(new MessageEvent('message', { data: result2.response.text() }));
 
           // When the stream ends, complete the SSE stream
           subscriber.next(new MessageEvent('end', { data: 'Streaming complete' }));

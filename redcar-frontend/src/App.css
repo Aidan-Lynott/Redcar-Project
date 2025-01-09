@@ -3,6 +3,7 @@
   background-color: #f8d7da; /* Gentle light red background */
   min-height: 100vh;
   display: flex;
+  flex-direction: column; /* Ensures elements stack vertically */
   justify-content: center;
   align-items: center;
   font-family: Arial, sans-serif;
@@ -43,7 +44,7 @@ form button {
   width: 75%; /* Button matches input width */
   padding: 0.7rem;
   margin-top: 1rem;
-  background-color: #f5c6cb; /* Light red button */
+  background-color: #ffffff; /* Light red button */
   color: black;
   font-weight: bold;
   border: none;
@@ -53,6 +54,23 @@ form button {
 }
 
 form button:hover {
+  background-color: #f1b0b7; /* Slightly darker shade on hover */
+}
+
+.button-style {
+  width: 75%; /* Button matches input width */
+  padding: 0.7rem;
+  margin-top: 1rem;
+  background-color: #ffffff; /* Light red button */
+  color: black;
+  font-weight: bold;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.button-style:hover {
   background-color: #f1b0b7; /* Slightly darker shade on hover */
 }
 
