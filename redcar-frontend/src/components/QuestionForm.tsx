@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { saveQuestionToDatabase, getUserQuestionsFromDatabase } from '../api.ts';
 import PreviousQuestions from './PreviousQuestions.tsx';
-import { useAuth } from './AuthContext.tsx'; // Import AuthContext hook
+import { useAuth } from './AuthContext.tsx'; 
 import { jwtDecode } from 'jwt-decode';
 
 const QuestionForm: React.FC = () => {

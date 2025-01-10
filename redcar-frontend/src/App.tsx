@@ -2,14 +2,14 @@
 
 import React, { useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
-import LogIn from './components/LogIn.tsx'; // Create this component
-import QuestionForm from './components/QuestionForm.tsx'; // Renamed from QuestionsPage
-import PrivateRoute from './components/PrivateRoute.tsx'; // Create this for route protection
+import LogIn from './components/LogIn.tsx';
+import QuestionForm from './components/QuestionForm.tsx'; 
+import PrivateRoute from './components/PrivateRoute.tsx'; 
 import './App.css';
 
 const App: React.FC = () => {
   useEffect(() => {
-    document.title = 'Redcar AI Business Question App'; // Set the title for the entire app
+    document.title = 'Redcar AI Business Question App'; 
   }, []);
 
   return (

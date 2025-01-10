@@ -16,7 +16,6 @@ export class QuestionController {
     private readonly questionService: QuestionService
   ) {
     this.apiKey = process.env.GEMINI_API_KEY; // Ensure your .env file is correctly set up
-    console.log(process.env.GEMINI_API_KEY);  // Log for debugging (you may want to remove this in production)
   }
 
   @Sse('stream')

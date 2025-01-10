@@ -16,7 +16,7 @@ describe('AuthService', () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [
         AuthService,
-        { provide: JwtService, useValue: mockJwtService }, // Mock JwtService
+        { provide: JwtService, useValue: mockJwtService }, 
       ],
     }).compile();
 
