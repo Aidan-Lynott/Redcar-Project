@@ -6,6 +6,7 @@ dotenv.config();
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   app.enableCors();
-  await app.listen(3001); // Backend will run on port 3001
+  const port = process.env.PORT || 3001;  // Use the dynamic port from environment variable, fallback to 3001 for local
+  await app.listen(port);  // Listen on the dynamic port
 }
 bootstrap();
