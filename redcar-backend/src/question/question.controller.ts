@@ -174,33 +174,55 @@ export class QuestionController {
     return new Observable<MessageEvent>((subscriber) => {
       (async () => {
         try {
-          // Await the promise to get the result
-          console.log(prompt)
-          // WHY DID THIS BREAK
-          const result = await model.generateContentStream(prompt);  // Await here to get the stream
-          console.log("Hi!")
-          console.log(result)
-          //const result2 = await model.generateContent(prompt);
+          console.log(prompt); // Log the prompt for debugging
 
-          // Iterate over chunks and push them to the SSE client as soon as they are received
-          for await (const chunk of result.stream) {  // Access 'stream' after awaiting the result
-            const chunkText = chunk.text();
-            console.log('Received chunk:', chunkText);  // Log for debugging
+          let result: any;
+          let isStreaming = false;
 
-            // Push chunk to the SSE client immediately
-            subscriber.next(new MessageEvent('message', { data: chunkText }));
+          try {
+            // Try to use the streaming method
+            result = await model.generateContentStream(prompt);
+            isStreaming = true; // Streaming worked
+          } catch (streamingError) {
+            console.warn('Streaming failed, falling back to non-streaming method:', streamingError.message);
+            
+            // Fallback to non-streaming method
+            try {
+              result = await model.generateContent(prompt);
+              isStreaming = false; // Streaming failed
+            } catch (fallbackError) {
+              console.error('Both streaming and fallback failed:', fallbackError.message);
+              
+              // If both attempts fail, notify the client and exit without sending any messages
+              subscriber.next(new MessageEvent('error', { data: 'Generating response failed. Please try again.' }));
+              subscriber.complete(); // Complete the Observable without sending any further messages
+              return; // Exit the function
+            }
           }
-          
-          // subscriber.next(new MessageEvent('message', { data: result2.response.text() }));
 
-          // When the stream ends, complete the SSE stream
+          if (isStreaming) {
+            // Iterate over chunks and push them to the SSE client
+            for await (const chunk of result.stream) {
+              const chunkText = chunk.text();
+              console.log('Received chunk:', chunkText); // Log for debugging
+              // Push chunk to the SSE client immediately
+              subscriber.next(new MessageEvent('message', { data: chunkText }));
+            }
+          } else {
+            // If non-streaming fallback, send the full result at once
+            const responseText = result.response.text();
+            console.log('Received full response:', responseText); // Log for debugging
+            subscriber.next(new MessageEvent('message', { data: responseText }));
+          }
+
+          // When the process ends, send the end signal
           subscriber.next(new MessageEvent('end', { data: 'Streaming complete' }));
           subscriber.complete();
         } catch (error) {
-          console.error('Error calling Google Gemini:', error.message);
-          subscriber.error(error);  // Propagate error to SSE client
+          console.error('Unexpected error:', error.message);
+          subscriber.error(error); // Propagate the error to the SSE client
         }
-      })();  // Call the async function immediately
+      })(); // Call the async function immediately
     });
   }
 
