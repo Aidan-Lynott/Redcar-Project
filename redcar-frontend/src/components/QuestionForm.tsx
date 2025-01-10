@@ -13,6 +13,8 @@ const QuestionForm: React.FC = () => {
 
   const { logout } = useAuth(); // Get the logout function from AuthContext
 
+  const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:3001';
+
   // Fetch all questions from the database when the component mounts
   useEffect(() => {
     const fetchQuestions = async () => {
@@ -39,7 +41,7 @@ const QuestionForm: React.FC = () => {
     let streamingResult = ''; // Local variable to track the result in real-time
 
     const eventSource = new EventSource(
-      `http://localhost:3001/questions/stream?question=${encodeURIComponent(question)}&domain=${encodeURIComponent(domain)}`
+      `${API_URL}/questions/stream?question=${encodeURIComponent(question)}&domain=${encodeURIComponent(domain)}`
     );
 
     eventSource.onmessage = (event) => {

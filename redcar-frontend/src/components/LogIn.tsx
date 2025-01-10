@@ -8,11 +8,13 @@ const LogIn: React.FC = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
 
+  const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:3001';
+
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     console.log('Login button clicked');  // Debugging line
     try {
-      const response = await fetch('http://localhost:3001/users/login', {
+      const response = await fetch(`${API_URL}/users/login`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -36,7 +38,7 @@ const LogIn: React.FC = () => {
     e.preventDefault();
     console.log('Register button clicked');  // Debugging line
     try {
-      const response = await fetch('http://localhost:3001/users/register', {
+      const response = await fetch(`${API_URL}/users/register`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
