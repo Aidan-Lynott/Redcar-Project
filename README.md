@@ -9,6 +9,7 @@ I did, however, spend a lot more time than the recommended 4-6 hours. A lot more
 Some notes on the site:
 - To use it, register a username/password combo and then login with it.
 - Ask a question in the question field. This question should explicitely include a web domain if you do not want to include it in the domain field.
+- The AI will search exactly the domain you provide for info. For example, if a football question includes espn.com, it will only look at espn.com, NOT espn.com/nfl.
 - The AI does NOT need any input in the domain field if said domain is in the question.
 - If there is a different domain in the domain field than in the question, the AI will prioritize the domain in the domain field.
 
