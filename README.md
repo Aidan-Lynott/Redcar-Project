@@ -2,6 +2,8 @@ Here's my Redcar Founding Engineer Take-Home Assignment!
 
 The app is currently deployed at: https://aidan-lynott-redcar-project.vercel.app/
 
+The GitHub with the code is: https://github.com/Aidan-Lynott/Redcar-Project/
+
 It was a really fun experience learning to do this as I pretty much haven't done any of this before. 
 
 I did, however, spend a lot more time than the recommended 4-6 hours. A lot more. It was still fun though!
