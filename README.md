@@ -46,10 +46,12 @@ JWT_SECRET=[Your choice]
 
 3 - Launch the backend:
 cd into the backend-project directory
+Run "npm install"
 Run "npm run start"
 
 4 - Launch the frontend:
 cd into the backend-project directory
+Run "npm install"
 Run "npm start"
 
 Then you should be able to use the app locally.
